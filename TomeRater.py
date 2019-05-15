@@ -41,9 +41,17 @@ class User(object):
 
 
 class Book(object):
+    def validate_price(self, price):
+        if (isinstance(price, int) or isinstance(price, float)) and price >= 0:
+            return True
+        return False
+
     def __init__(self, title, isbn, price):
         self.title = title
         self.isbn = isbn
+        if not self.validate_price(price):
+            print("Invalid price '{}', setting price to zero".format(price))
+            price = 0
         self.price = price
         self.ratings = []
 
@@ -58,6 +66,9 @@ class Book(object):
         print("{title} isbn has been updated".format(title=self.title))
 
     def set_price(self, new_price):
+        if not self.validate_price(new_price):
+            print("Invalid price '{}', price not updated".format(new_price))
+            return
         self.price = new_price
 
     def add_rating(self, rating):
@@ -242,7 +253,10 @@ class TomeRater(object):
         best_value_book = ""
         best_value = float("-inf")
         for book in self.books.keys():
-            value = self.books[book] / book.price
+            if book.price == 0:
+                continue
+            value = book.get_average_rating() / book.price
             if value > best_value:
                 best_value_book = book
+                best_value = value
         return best_value_book

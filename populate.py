@@ -8,12 +8,18 @@ novel1 = Tome_Rater.create_novel("Alice In Wonderland", "Lewis Carroll", 12345, 
 novel1.set_isbn(9781536831139)
 nonfiction1 = Tome_Rater.create_non_fiction("Automate the Boring Stuff", "Python", "beginner", 1929452)
 nonfiction2 = Tome_Rater.create_non_fiction("Computing Machinery and Intelligence", "AI", "advanced", 11111938, 30)
-novel2 = Tome_Rater.create_novel("The Diamond Age", "Neal Stephenson", 10101010)
+print("Create novel with invalid price:")
+novel2 = Tome_Rater.create_novel("The Diamond Age", "Neal Stephenson", 10101010, -13)
 novel3 = Tome_Rater.create_novel("There Will Come Soft Rains", "Ray Bradbury", 10001000, 50)
 
 #Set price to some books afterwards
 novel2.set_price(60)
-novel1.set_price(100)
+novel1.set_price(99.90)
+
+print("Set invalid prices:")
+nonfiction1.set_price("asdf")
+nonfiction1.set_price(-4000)
+
 
 #Create users:
 Tome_Rater.add_user("Alan Turing", "alan@turing.com")
@@ -96,4 +102,6 @@ print("Test worth of a user:")
 print(Tome_Rater.get_worth_of_user("marvin@mit.edu"))
 print(Tome_Rater.get_worth_of_user("not@existing.user"))
 
+print("Test best value book:")
+print(Tome_Rater.get_book_with_best_rating_for_price())
 
